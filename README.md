@@ -1,0 +1,4 @@
+infinispan-playground
+=====================
+
+Infinispan Playground
