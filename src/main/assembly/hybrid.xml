@@ -4,7 +4,7 @@
    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
    <id>module</id>
 
-   <baseDirectory>modules/net/dataforte/infinispan/playground/hybrid/main</baseDirectory>
+   <baseDirectory />
 
    <formats>
       <format>zip</format>
@@ -13,17 +13,24 @@
    <fileSets>
       <fileSet>
          <directory>src/main/etc</directory>
-         <outputDirectory />
+         <outputDirectory>modules/net/dataforte/infinispan/playground/hybrid/main</outputDirectory>
          <includes>
             <include>module.xml</include>
          </includes>
       </fileSet>
       <fileSet>
          <directory>target</directory>
-         <outputDirectory />
+         <outputDirectory>modules/net/dataforte/infinispan/playground/hybrid/main</outputDirectory>
          <includes>
             <include>infinispan-playground-hybrid.jar</include>
          </includes>
+      </fileSet>
+      <fileSet>
+        <directory>src/main/etc</directory>
+        <outputDirectory>standalone/configuration</outputDirectory>
+        <includes>
+            <include>server-hybrid.xml</include>
+        </includes>
       </fileSet>
    </fileSets>
 

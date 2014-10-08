@@ -23,7 +23,7 @@ public class WordCountMapper implements Mapper<String, String, String, Integer> 
          }
       }
 
-      if (chunks % 1000 == 0)
+      if (chunks % 100 == 0)
          System.out.printf("Analyzed %s words in %s lines%n", words, chunks);
    }
 }
