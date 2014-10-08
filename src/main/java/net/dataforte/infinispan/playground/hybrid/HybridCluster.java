@@ -1,4 +1,4 @@
-package net.dataforte.infinispan.hybrid;
+package net.dataforte.infinispan.playground.hybrid;
 
 import java.util.Properties;
 
@@ -9,6 +9,7 @@ import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.manager.EmbeddedCacheManager;
 import org.infinispan.remoting.transport.jgroups.JGroupsChannelLookup;
 import org.infinispan.remoting.transport.jgroups.JGroupsTransport;
 import org.jgroups.Channel;
@@ -17,7 +18,8 @@ import org.jgroups.conf.ProtocolStackConfigurator;
 
 public class HybridCluster {
 
-   static final String JGROUPS_CONFIGURATION_FILE = "hybrid-udp.xml";
+   public static final String JGROUPS_CONFIGURATION_FILE = "hybrid-udp.xml";
+   private DefaultCacheManager cm;
 
    public static class MuxChannelLookup implements JGroupsChannelLookup {
 
@@ -51,18 +53,21 @@ public class HybridCluster {
 
    }
 
-   public static void main(String[] args) throws InterruptedException {
+   public HybridCluster(String configurationFile) {
       GlobalConfigurationBuilder global = new GlobalConfigurationBuilder();
-      global.clusteredDefault().transport().clusterName("clustered").nodeName("embedded").addProperty(JGroupsTransport.CONFIGURATION_FILE, JGROUPS_CONFIGURATION_FILE).addProperty(JGroupsTransport.CHANNEL_LOOKUP, MuxChannelLookup.class.getName());
+      global.clusteredDefault().transport().clusterName("clustered").nodeName("embedded").addProperty(JGroupsTransport.CONFIGURATION_FILE, configurationFile).addProperty(JGroupsTransport.CHANNEL_LOOKUP, MuxChannelLookup.class.getName());
       global.serialization().classResolver(HybridClassResolver.getInstance(HybridCluster.class.getClassLoader()));
       ConfigurationBuilder config = new ConfigurationBuilder();
       config.clustering().cacheMode(CacheMode.DIST_SYNC);
-      DefaultCacheManager cm = new DefaultCacheManager(global.build(), config.build());
-      Cache<String, String> cache = cm.getCache("default");
-      //Thread.sleep(5000);
-      cache.put("a", "b");
-      System.out.println(cache.get("a"));
-      cm.stop();
+      cm = new DefaultCacheManager(global.build(), config.build());
+   }
+
+   public EmbeddedCacheManager getCacheManager() {
+      return cm;
+   }
+
+   public <K, V> Cache<K, V> getCache() {
+      return cm.getCache("default");
    }
 
 }

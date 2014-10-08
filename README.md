@@ -1,4 +1,6 @@
-infinispan-playground
+infinispan-playground-hybrid
 =====================
 
-Infinispan Playground
+Infinispan Playground Hybrid Map/Reduce Word Count demo
+
+

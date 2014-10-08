@@ -1,4 +1,4 @@
-package net.dataforte.infinispan.hybrid;
+package net.dataforte.infinispan.playground.hybrid;
 
 import java.io.IOException;
 import java.lang.reflect.Proxy;
@@ -22,8 +22,12 @@ public final class HybridClassResolver implements ClassResolver {
    /** {@inheritDoc} */
    @Override
    public void annotateClass(final Marshaller marshaller, final Class<?> clazz) throws IOException {
-      if(clazz.getName().startsWith("org.infinispan.")) {
+      String clazzName = clazz.getName();
+      if (clazzName.startsWith("org.infinispan.")) {
          marshaller.writeObject("org.infinispan");
+         marshaller.writeObject("main");
+      } else if (clazzName.startsWith("net.dataforte.infinispan.playground.hybrid.")) {
+         marshaller.writeObject("net.dataforte.infinispan.playground.hybrid");
          marshaller.writeObject("main");
       } else {
          marshaller.writeObject(null);
