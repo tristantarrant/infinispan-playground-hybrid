@@ -5,6 +5,8 @@ import java.util.Properties;
 import org.infinispan.Cache;
 import org.infinispan.commons.CacheException;
 import org.infinispan.commons.util.FileLookup;
+import org.infinispan.commons.util.FileLookupFactory;
+import org.infinispan.commons.util.FileLookupFactory.DefaultFileLookup;
 import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
@@ -25,7 +27,7 @@ public class HybridCluster {
 
       @Override
       public Channel getJGroupsChannel(Properties p) {
-         FileLookup fileLookup = new FileLookup();
+         FileLookup fileLookup = FileLookupFactory.newInstance();
          try {
             String configFile = p.getProperty(JGroupsTransport.CONFIGURATION_FILE);
             ProtocolStackConfigurator configurator = ConfiguratorFactory.getStackConfigurator(fileLookup.lookupFileLocation(configFile, HybridCluster.class.getClassLoader()));
