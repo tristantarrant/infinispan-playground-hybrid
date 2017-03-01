@@ -10,7 +10,7 @@ Infinispan Server.
 
 Build and package the demo:
 
-$ mvn clean pacakge
+$ mvn clean package
 
 This will compile the classes and generate in the target directory a server 
 module packaged as a zip file which you need to extract at the root of the 
